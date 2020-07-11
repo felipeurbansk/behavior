@@ -14,7 +14,7 @@ class AddColumPostsSlug extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->string('slug')->unique()->after('title');
+            // $table->string('slug')->unique()->after('title');
         });
     }
 
@@ -26,7 +26,7 @@ class AddColumPostsSlug extends Migration
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->dropColumn('slug');
+            // $table->dropColumn('slug');
         });
     }
 }
