@@ -3,234 +3,158 @@
 namespace LaraDev\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-relareuse LaraDev\User;
-use LaraDev\Address;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index($id, $comments)
+    public function index()
     {
-        echo "ID: $id | Comments: $comments";
-    }
+        /*
+          $users = DB::table('users')
+            ->select(['users.id', 'users.name', 'users.email'])
+            ->orderBy('id', 'asc')
+            ->limit(15)
+            ->offset(2)
+            ->get();
+        */
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        echo "<h1>Function CREATE</h1>";
-    }
+        /*
+            $users = DB::table('users')
+            ->selectRaw('users.id, users.name, users.email, CASE WHEN users.status = 1 THEN "ATIVO" ELSE "INATIVO" END status')
+            ->whereRaw('(SELECT COUNT(1) FROM addresses a WHERE a.user = users.id ) > 2')
+            ->whereRaw('users.status = 0')
+            ->orderBy('users.name', 'ASC')
+            ->get();
+        */
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        echo "<h1>Function STORE</h1>";
-    }
+        /*
+            $users = DB::select(DB::raw('
+            SELECT  behavior.users.id,
+                    behavior.users.name,
+                    behavior.users.email,
+                    CASE
+                        WHEN behavior.users.status = 1 THEN "ATIVO"
+                        ELSE "INATIVO"
+                    END status
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $user = User::find($id);
+                    FROM behavior.users
+                    WHERE (SELECT COUNT(1) FROM behavior.addresses a WHERE a.user = behavior.users.id ) > 2
+                        AND behavior.users.status = 0
+                    ORDER BY behavior.users.name ASC;
+            '));
+        */
 
-        echo "User: ".$user->name;
-        echo "E-mail: ".$user->email;
-        echo "<br>";
-
-        // $addressUser = $user->address()->get();
-
-        // if ($addressUser) {
-        //     foreach($addressUser as $add) {
-        //         echo "Endereço: ".$add->address;
-        //         echo "Número: ".$add->number;
-        //         echo "<br>";
-        //     }
-        // }
-
-        // $newAddress = new Address([
-        //     'address' => 'Rua dos bobos',
-        //     'number' => '0',
-        //     'complement' => 'Complemento de teste',
-        //     'zipcode' => '80600-000',
-        //     'city' => 'Curitiba',
-        //     'state' => 'PR'
-        // ]);
-
-        // $user->address()->save($newAddress);
-
-        // $newAddress = new Address();
-
-        // $newAddress->address = 'Rua dos bobos 1';
-        // $newAddress->number = '1';
-        // $newAddress->complement = 'Complemento de teste ';
-        // $newAddress->zipcode = '81600-000';
-        // $newAddress->city = 'Curitiba';
-        // $newAddress->state = 'PR';
-
-        // $user->address()->save($newAddress);
-
-        // $user->address()->create(
-        //     [
-        //         'address' => 'Rua dos bobos',
-        //         'number' => '0',
-        //         'complement' => 'Complemento de teste',
-        //         'zipcode' => '80600-000',
-        //         'city' => 'Curitiba',
-        //         'state' => 'PR'
-        //     ]
-        // );
-
-        // $user->address()->createMany([
-        //     [
-        //         'address' => 'Initial',
-        //         'number' => '33',
-        //         'complement' => 'Initial',
-        //         'zipcode' => '80600-000',
-        //         'city' => 'Curitiba',
-        //         'state' => 'PR'
-        //     ],
-        //     [
-        //         'address' => 'Rua dos bobos 2',
-        //         'number' => '2',
-        //         'complement' => 'Complemento de teste 2',
-        //         'zipcode' => '80600-000',
-        //         'city' => 'Curitiba',
-        //         'state' => 'PR'
-        //     ],
-        //     [
-        //         'address' => 'Rua dos bobos 3',
-        //         'number' => '3',
-        //         'complement' => 'Complemento de teste 3',
-        //         'zipcode' => '80600-000',
-        //         'city' => 'Curitiba',
-        //         'state' => 'PR'
-        //     ]
-        // ]);
-
-        // $user = User::with('address')->get();
-
-        // $posts = User::find($id)->posts()->get();
-
-        // foreach($posts as $post) {
-        //     echo "<p>Title: ".$post->title."</p>";
-        //     echo "<p>Slug: ".$post->slug."</p>";
-        //     echo "<p>Description: ".$post->description."</p>";
-        //     echo "<hr>";
-        // }
-
-        // dd($post);
-
-        /** Comments */
-        // $comments = $user->commentsOnMyPost()->get();
-
-        // dd($comments);
-
-        // $user->comments()->create([
-        //     'content' => "Segundo comentario em users."
-        // ]);
-
-        $comments = $user->comments()->get();
-
-        if ($comments) {
-            echo "<h2>Comentarios</h2>";
-            foreach($comments as $comment) {
-                echo "<p>[#{$comment->id}]Content: {$comment->content}";
+        /*
+            $users = DB::table('users')->where('id', '<', '600')->chunkById(50, function($users){
+            echo "<table>";
+            echo "<thead>";
+            echo "<tr>";
+            echo "<th>ID</th>";
+            echo "<th>Nome</th>";
+            echo "<th>Email</th>";
+            echo "<th>Status</th>";
+            echo "</tr>";
+            echo "</thead>";
+            echo "<tbody>";
+            foreach ($users as $user) {
+                echo "<tr>";
+                echo "<td>#{$user->id}</td>";
+                echo "<td>{$user->name}</td>";
+                echo "<td>{$user->email}</td>";
+                echo "<td>{$user->status}</td>";
+                echo "</tr>";
             }
+            echo "</tbody>";
+            echo "</table>";
+
+        });
+        */
+
+//        $users = DB::table('users')
+////            ->whereIn('users.status', [0, 1])
+////            ->whereNotIn('users.status', [0, 1])
+////            ->whereNull('')
+//            ->whereNotNull('users.name')
+////            ->whereColumn('created_at', '=', 'updated_at')
+//            ->whereDate('updated_at', '>', '2020-07-01')
+//            ->whereDay('created_at', '=', '19')
+//            ->whereMonth('created_at', '=', '10')
+//            ->whereYear('created_at', '=', '1993')
+//            ->get();
+
+//        $users = DB::table('users')
+//            ->select('users.id', 'users.name', 'users.email', 'users.status', 'addresses.address')
+////            ->leftJoin('addresses', 'users.id', '=', 'addresses.user')
+//            ->join('addresses', function($join){
+//                $join->on('users.id', '=', 'addresses.user')
+//                    ->where('addresses.status', '=', '1');
+//            })
+//            ->orderBy('users.id', 'DESC')
+//            ->get();
+//
+//        echo "<h1>Total de usuários: {$users->count()}</h1>";
+//        echo "<table>";
+//        echo "<thead>";
+//        echo "<tr>";
+//        echo "<th>ID</th>";
+//        echo "<th>Nome</th>";
+//        echo "<th>Email</th>";
+//        echo "<th>Endereço</th>";
+//        echo "<th>Status</th>";
+//        echo "</tr>";
+//        echo "</thead>";
+//        echo "<tbody>";
+//        foreach ($users as $user) {
+//            echo "<tr>";
+//            echo "<td>#{$user->id}</td>";
+//            echo "<td>{$user->name}</td>";
+//            echo "<td>{$user->email}</td>";
+//            echo "<td>{$user->address}</td>";
+//            echo "<td>{$user->status}</td>";
+//            echo "</tr>";
+//        }
+//        echo "</tbody>";
+//        echo "</table>";
+
+
+//        DB::table('users')->insert([
+//            'name' => 'Felipe Urbanski',
+//            'email' => 'felipeurbanski@gmail.com',
+//            'password' => bcrypt('123456'),
+//            'status' => '1',
+//        ]);
+
+//        DB::table('users')->where('id', '1003')->update([
+//            'name' => 'Tavaris Memier'
+//        ]);
+
+//        DB::table('users')->where('id', '1001')->delete();
+
+        $users = DB::table('users')->paginate(10);
+
+        echo "<h1>Total de usuários: {$users->total()}</h1>";
+        echo "<table>";
+        echo "<thead>";
+        echo "<tr>";
+        echo "<th>ID</th>";
+        echo "<th>Nome</th>";
+        echo "<th>Email</th>";
+        echo "<th>Status</th>";
+        echo "</tr>";
+        echo "</thead>";
+        echo "<tbody>";
+        foreach ($users as $user) {
+            echo "<tr>";
+            echo "<td>#{$user->id}</td>";
+            echo "<td>{$user->name}</td>";
+            echo "<td>{$user->email}</td>";
+            echo "<td>{$user->status}</td>";
+            echo "</tr>";
         }
+        echo "</tbody>";
+        echo "</table>";
 
-        echo "<hr>";
+        echo $users->links();
 
-        $students = User::students()->get();
-
-        if ($students) {
-            echo "<h1>Estudantes</h1>";
-
-            foreach($students as $student){
-                echo "<p>Nome: ".$student->name."</p>";
-                echo "<p>E-mail: ".$student->email."</p>";
-                echo "<p><br>"."</p>";
-            }
-        }
-
-        echo "<hr>";
-
-        $admins = User::admins()->get();
-
-        if ($admins) {
-            echo "<h1>Administradores</h1>";
-
-            foreach($admins as $admin){
-                echo "<p>Nome: ".$admin->name."</p>";
-                echo "<p>E-mail: ".$admin->email."</p>";
-                echo "<p><br>"."</p>";
-            }
-        }
-
-
-        echo "<h1>Serialize</h1>";
-
-        $user = User::all();
-        var_dump($user->makeVisible('password')->toArray());
-        var_dump($user->makeHidden('password')->toJson(JSON_PRETTY_PRINT));
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        echo "<h1>Function EDIT</h1>";
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        echo "<h1>Function UPDATE</h1>";
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        echo "<h1>Function DESTROY</h1>";
-    }
-
-    public function inspect() {
-        var_dump(Route::current());
-        var_dump(Route::currentRouteName());
-        var_dump(Route::currentRouteAction());
-
-        die();
     }
 }
