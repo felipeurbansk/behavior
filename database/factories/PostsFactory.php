@@ -4,17 +4,13 @@ use Faker\Generator as Faker;
 
 $factory->define(\LaraDev\Post::class, function (Faker $faker) {
 
-    $title = $faker->sentence(10);
-
+    $title = $faker->paragraph(1);
     return [
         'title' => $title,
-        // 'slug' => str_slug($title),
-        'subtitle' => $faker->sentence(10),
+        'slug' => str_slug($title),
+        'subtitle' => $faker->paragraph(1),
         'description' => $faker->paragraph(5),
-        // 'publish_at' => $faker->dateTime(),
-        // 'category' => function() {
-        //     return factory(\LaraDev\Categories::class)->create()->id;
-        // }
+        'author' => $faker->randomElement(\LaraDev\User::all()->pluck('id')->toArray())
     ];
 
 });

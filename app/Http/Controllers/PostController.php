@@ -123,7 +123,50 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::find($id);
+        $post->title = "Um titulo novo";
+        $post->save();
+
+        $user = $post->user()->get()->first() ;
+
+        echo "<h1>{$post->title}</h1>";
+        echo "<h4>{$post->subtitle}</h4>";
+        echo "<h4>{$post->createdFmt}</h4>";
+        echo "<p>Name: ".$user->name."</p>";
+        echo "<p>Email: ".$user->email."</p>";
+        echo "<hr>";
+
+        $categories = $post->categories()->get();
+
+        if ($categories) {
+            echo "<h2>Categorias</h2>";
+            foreach($categories as $categorie) {
+                echo "<p>[#{$categorie->id}]Nome: {$categorie->name} | Slug: {$categorie->slug}</p>";
+            }
+        }
+
+        echo "<hr>";
+
+        // $post->categories()->attach([5, 11]);
+        // $post->categories()->detach([5, 11]);
+
+        // $post->categories()->sync([5, 11, 12]);
+        // $post->categories()->syncWithoutDetaching([9, 8]);
+
+        // $post->comments()->create([
+        //     'content' => "Segundo comentario em posts."
+        // ]);
+
+
+        $comments = $post->comments()->get();
+
+        if ($comments) {
+            echo "<h2>Comentarios</h2>";
+            foreach($comments as $comment) {
+                echo "<p>[#{$comment->id}]Content: {$comment->content}";
+            }
+        }
+
     }
 
     /**

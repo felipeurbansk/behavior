@@ -2,10 +2,10 @@
 
 namespace LaraDev\Http\Controllers;
 
-use LaraDev\Categories;
 use Illuminate\Http\Request;
+use LaraDev\Category;
 
-class CategoriesController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        echo Route::current();
+        //
     }
 
     /**
@@ -41,21 +41,32 @@ class CategoriesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \LaraDev\Categories  $categories
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Categories $categories)
+    public function show($id)
     {
-        //
+        $category = Category::find($id);
+
+        $posts = $category->posts()->get();
+
+        echo "<h1>Categoria: {$category->name}</h1>";
+        echo "<hr>";
+        if($posts) {
+            foreach($posts as $post) {
+                echo "<h3>{$post->title}</h3>";
+                echo "<h4>{$post->subtitle}</h4>";
+            }
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \LaraDev\Categories  $categories
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Categories $categories)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +75,10 @@ class CategoriesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \LaraDev\Categories  $categories
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Categories $categories)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +86,10 @@ class CategoriesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \LaraDev\Categories  $categories
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Categories $categories)
+    public function destroy($id)
     {
         //
     }
