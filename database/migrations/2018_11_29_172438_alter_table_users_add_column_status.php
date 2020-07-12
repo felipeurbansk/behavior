@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class InsertUserAdmin extends Migration
+class AlterTableUsersAddColumnStatus extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class InsertUserAdmin extends Migration
      */
     public function up()
     {
-        DB::table('users')->insert([
-            'name' => 'Administrador',
-            'email' => env('ADMIN_EMAIL'),
-            'password' => bcrypt(env('ADMIN_PASSWORD'))
-        ]);
+        Schema::table('users', function (Blueprint $table) {
+            $table->integer('status')->after('remember_token')->comment('0 = Inativo 1 = Ativo 2 = Suspenso');
+        });
     }
 
     /**
@@ -27,6 +25,8 @@ class InsertUserAdmin extends Migration
      */
     public function down()
     {
-        DB::delete('delete from users where email = ?', [env('ADMIN_EMAIL')]);
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
 }

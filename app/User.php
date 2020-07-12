@@ -25,12 +25,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'level'
+        'password', 'remember_token',
     ];
-
-    protected $visible = ['name', 'email', 'admin'];
-
-    protected $appends = ['admin'];
 
     /**
      * The attributes that should be cast to native types.
@@ -40,35 +36,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-
-    public function address() {
-        return $this->hasOne(Address::class, 'user', 'id');
-    }
-
-    public function posts() {
-        return $this->hasMany(Post::class, 'author', 'id');
-    }
-
-    public function commentsOnMyPost() {
-
-        return $this->hasManyThrough(Comment::class, Post::class, 'author', 'post', 'id', 'id');
-
-    }
-
-    public function comments() {
-        return $this->morphMany(Comment::class, 'item');
-    }
-
-    public function scopeStudents($query){
-        return $query->where('level', '<=', 5);
-    }
-
-    public function scopeAdmins($query){
-        return $query->where('level', '>', 5);
-    }
-
-    public function getAdminAttribute() {
-        return ($this->attributes['level'] > 5 ? true : false);
-    }
 }
