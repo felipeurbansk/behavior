@@ -77,3 +77,10 @@ Route::get('/session', function () {
 
     var_dump(session()->all());
 });
+
+Route::get('/mail', function() {
+    $user = LaraDev\User::find(1);
+    \Illuminate\Support\Facades\Mail::send(new \LaraDev\Mail\WelcomeMail($user));
+//   return new LaraDev\Mail\WelcomeMail($user);
+
+});
