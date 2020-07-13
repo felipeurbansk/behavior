@@ -31,16 +31,20 @@ Route::get('/log', function () {
 Route::get('/session', function () {
 
 //    session()->get('name', function(){
-//        $nameDefault = 'Felipe Urbanski';
+//        $nameDefault = 'Douglas Urbanski';
 //
 //        Log::alert("O valor de 'name' está vazio, e foi atribuido o valor padrão: {$nameDefault}");
 //
 //        session()->put('name', $nameDefault);
 //    });
 
-    session(['email' => 'felipeurbansk@gmail.com']);
+//    session(['email' => 'felipeurbansk@gmail.com']);
+    session(['email' => 'douglinhasdoiscoracoes@gmail.com']);
 
-//    session()->push('users.teams', 'developers');
+//    session()->push('cart', 'Cafeteira');
+//    session()->push('cart', 'Celular samsung');
+//    session()->push('cart', 'Minitor DELL');
+
 //    session()->push('users.teams', 'design');
 //    session()->push('users.teams', ['arts', 'ceo']);
 
