@@ -80,7 +80,11 @@ Route::get('/session', function () {
 
 Route::get('/mail', function() {
     $user = LaraDev\User::find(1);
-    \Illuminate\Support\Facades\Mail::send(new \LaraDev\Mail\WelcomeMail($user));
+
+//    \Illuminate\Support\Facades\Mail::queue(new \LaraDev\Mail\WelcomeMail($user));
 //   return new LaraDev\Mail\WelcomeMail($user);
+
+    // Jobs
+    LaraDev\Jobs\ProcessWelcomeMail::dispatch($user);
 
 });
