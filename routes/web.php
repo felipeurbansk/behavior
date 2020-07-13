@@ -16,7 +16,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::get('/log', function () {
 //    Log::emergency("Mensagem de emergencia");
 //    Log::alert("Mensagem de alerta");
@@ -87,4 +86,45 @@ Route::get('/mail', function() {
     // Jobs
     LaraDev\Jobs\ProcessWelcomeMail::dispatch($user);
 
+});
+
+Route::get('/files', function() {
+
+//    \Illuminate\Support\Facades\Storage::makeDirectory('public/students');
+//    \Illuminate\Support\Facades\Storage::deleteDirectory('public/course');
+
+//    \Illuminate\Support\Facades\Storage::disk()->put('treinamentos-upinside.txt', 'O melhor curso de laravel do mercado.');
+//    \Illuminate\Support\Facades\Storage::disk('public')->put('upinside.txt', 'O melhor curso de laravel do mercado.');
+
+//    echo \Illuminate\Support\Facades\Storage::get('treinamentos-upinside.txt');
+
+//    return \Illuminate\Support\Facades\Storage::download('treinamentos-upinside.txt');
+
+//    if (\Illuminate\Support\Facades\Storage::exists('treinamentos-upinside.txt')) {
+//    if (\Illuminate\Support\Facades\Storage::exists('public')) {
+//        echo "O arquivo existe";
+//    } else {
+//        echo "O arquivo não existe";
+//    }
+//    echo "<br>";
+//    echo "Tamanho do arquivo: ".\Illuminate\Support\Facades\Storage::size('treinamentos-upinside.txt');
+//    echo "<br>";
+//    echo "Ultima atualização: ".date('d/m/Y', \Illuminate\Support\Facades\Storage::lastModified('treinamentos-upinside.txt'));
+//    echo "<br>";
+
+//    \Illuminate\Support\Facades\Storage::prepend('treinamentos-upinside.txt', 'UpInside Treinamentos');
+//    \Illuminate\Support\Facades\Storage::append('treinamentos-upinside.txt', 'Vem estudar com a gente');
+//    \Illuminate\Support\Facades\Storage::copy('treinamentos-upinside.txt', 'public/treinamentos-upinside.txt');
+//    \Illuminate\Support\Facades\Storage::move('treinamentos-upinside.txt', 'public/treinamentos-upinside.txt');
+//    \Illuminate\Support\Facades\Storage::delete('public/students/treinamentos-upinside.txt');
+//    \Illuminate\Support\Facades\Storage::delete('treinamentos-upinside.txt');
+
+
+    /*List files/directories*/
+    $files = \Illuminate\Support\Facades\Storage::files('');
+    $allFiles = \Illuminate\Support\Facades\Storage::allFiles('');
+    $directories = \Illuminate\Support\Facades\Storage::directories('');
+    $allDirectories = \Illuminate\Support\Facades\Storage::allDirectories('');
+
+    var_dump($files, $allFiles, $directories, $allDirectories);
 });
