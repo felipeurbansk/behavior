@@ -146,6 +146,10 @@ Route::get('/front', function() {
 //    return view('front.home', compact(['user', 'promotion']));
 });
 
+Route::get('/' , function() {
+    return view('front.home');
+});
+
 Route::get('/courses' , function() {
     return view('front.master.course');
 });
