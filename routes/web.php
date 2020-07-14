@@ -11,12 +11,7 @@
 |
 */
 
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/log', function () {
+//Route::get('/log', function () {
 //    Log::emergency("Mensagem de emergencia");
 //    Log::alert("Mensagem de alerta");
 //    Log::critical("Mensagem critica");
@@ -24,10 +19,10 @@ Route::get('/log', function () {
 //    Log::warning("Mensagem de aviso");
 //    Log::notice("Mensagem de noticia");
 //    Log::debug("Mensagem de DEBUG");
-    Log::info("Mensagem de Informação.", ['id' => 25, 'nome' => 'Felipe Urbanski']);
-});
+//    Log::info("Mensagem de Informação.", ['id' => 25, 'nome' => 'Felipe Urbanski']);
+//});
 
-Route::get('/session', function () {
+//Route::get('/session', function () {
 
 //    session()->get('name', function(){
 //        $nameDefault = 'Douglas Urbanski';
@@ -38,7 +33,7 @@ Route::get('/session', function () {
 //    });
 
 //    session(['email' => 'felipeurbansk@gmail.com']);
-    session(['email' => 'douglinhasdoiscoracoes@gmail.com']);
+//    session(['email' => 'douglinhasdoiscoracoes@gmail.com']);
 
 //    session()->push('cart', 'Cafeteira');
 //    session()->push('cart', 'Celular samsung');
@@ -58,37 +53,37 @@ Route::get('/session', function () {
 //    session()->regenerate();
 
 
-    if (session()->has('email')) {
-        echo "<h3>E-mail existe: " . session()->get('email') . "</h3>";
-    } else {
-        echo "<p>Parametro email não existe ou está nullo.</p>";
-    }
+//    if (session()->has('email')) {
+//        echo "<h3>E-mail existe: " . session()->get('email') . "</h3>";
+//    } else {
+//        echo "<p>Parametro email não existe ou está nullo.</p>";
+//    }
+//
+//    if (session()->exists('email')) {
+//        if(session()->has('email')){
+//            echo "<h3>E-mail existe: " . session()->get('email') . "</h3>";
+//        } else {
+//            echo "<h3>Campo email existe mas está vazio.</h3>";
+//        }
+//    } else {
+//        echo "<p>O parâmetro email da sessão não existe.</p>";
+//    }
+//
+//    var_dump(session()->all());
+//});
 
-    if (session()->exists('email')) {
-        if(session()->has('email')){
-            echo "<h3>E-mail existe: " . session()->get('email') . "</h3>";
-        } else {
-            echo "<h3>Campo email existe mas está vazio.</h3>";
-        }
-    } else {
-        echo "<p>O parâmetro email da sessão não existe.</p>";
-    }
-
-    var_dump(session()->all());
-});
-
-Route::get('/mail', function() {
-    $user = LaraDev\User::find(1);
+//Route::get('/mail', function() {
+//    $user = LaraDev\User::find(1);
 
 //    \Illuminate\Support\Facades\Mail::queue(new \LaraDev\Mail\WelcomeMail($user));
 //   return new LaraDev\Mail\WelcomeMail($user);
 
     // Jobs
-    LaraDev\Jobs\ProcessWelcomeMail::dispatch($user);
+//    LaraDev\Jobs\ProcessWelcomeMail::dispatch($user);
 
-});
+//});
 
-Route::get('/files', function() {
+//Route::get('/files', function() {
 
 //    \Illuminate\Support\Facades\Storage::makeDirectory('public/students');
 //    \Illuminate\Support\Facades\Storage::deleteDirectory('public/course');
@@ -122,13 +117,35 @@ Route::get('/files', function() {
 
 
     /*List files/directories*/
-    $files = \Illuminate\Support\Facades\Storage::files('');
-    $allFiles = \Illuminate\Support\Facades\Storage::allFiles('');
-    $directories = \Illuminate\Support\Facades\Storage::directories('');
-    $allDirectories = \Illuminate\Support\Facades\Storage::allDirectories('');
+//    $files = \Illuminate\Support\Facades\Storage::files('');
+//    $allFiles = \Illuminate\Support\Facades\Storage::allFiles('');
+//    $directories = \Illuminate\Support\Facades\Storage::directories('');
+//    $allDirectories = \Illuminate\Support\Facades\Storage::allDirectories('');
+//
+//    var_dump($files, $allFiles, $directories, $allDirectories);
+//});
 
-    var_dump($files, $allFiles, $directories, $allDirectories);
+//Route::resource('imovels', 'ImovelController')->middleware(['imovelVisible:1']);
+//Route::get('/imovels', 'ImovelController@index')->name('imovels.index');
+
+Route::get('/front', function() {
+    $users = LaraDev\User::all();
+    $promotion = new stdClass();
+    $promotion->name = "Ofertão";
+    $promotion->price = "10Doleta";
+    $promotion->textHtml = "<div style='background-color: #1b1e21; color: #fff  ; padding: 20px; text-align: center' class='container'><span>Olha esse span mermão.</span></div>";
+
+    return view('front.home',  [
+              'users' => $users,
+              'promotion' => $promotion,
+     ]);
+
+//    return view('front.home')->with('user', $user);
+//    return view('front.home')->with(['user' => $user, 'promotion' => $promotion]);
+//    return view('front.home')->with('user', $user)->with('promotion',$promotion);
+//    return view('front.home', compact(['user', 'promotion']));
 });
 
-Route::resource('imovels', 'ImovelController')->middleware(['imovelVisible:1']);
-Route::get('/imovels', 'ImovelController@index')->name('imovels.index');
+Route::get('/courses' , function() {
+    return view('front.master.course');
+});
