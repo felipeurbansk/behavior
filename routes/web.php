@@ -97,6 +97,7 @@ Route::get('/files', function() {
 //    \Illuminate\Support\Facades\Storage::disk('public')->put('upinside.txt', 'O melhor curso de laravel do mercado.');
 
 //    echo \Illuminate\Support\Facades\Storage::get('treinamentos-upinside.txt');
+//    echo \Illuminate\Support\Facades\Storage::disk('public')->url('treinamentos-upinside.txt');
 
 //    return \Illuminate\Support\Facades\Storage::download('treinamentos-upinside.txt');
 
@@ -128,3 +129,6 @@ Route::get('/files', function() {
 
     var_dump($files, $allFiles, $directories, $allDirectories);
 });
+
+Route::resource('imovels', 'ImovelController')->middleware(['imovelVisible:1']);
+Route::get('/imovels', 'ImovelController@index')->name('imovels.index');
