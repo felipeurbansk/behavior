@@ -128,28 +128,32 @@
 //Route::resource('imovels', 'ImovelController')->middleware(['imovelVisible:1']);
 //Route::get('/imovels', 'ImovelController@index')->name('imovels.index');
 
-Route::get('/front', function() {
-    $users = LaraDev\User::all();
-    $promotion = new stdClass();
-    $promotion->name = "Ofertão";
-    $promotion->price = "10Doleta";
-    $promotion->textHtml = "<div style='background-color: #1b1e21; color: #fff  ; padding: 20px; text-align: center' class='container'><span>Olha esse span mermão.</span></div>";
-
-    return view('front.home',  [
-              'users' => $users,
-              'promotion' => $promotion,
-     ]);
+//Route::get('/front', function() {
+//    $users = LaraDev\User::all();
+//    $promotion = new stdClass();
+//    $promotion->name = "Ofertão";
+//    $promotion->price = "10Doleta";
+//    $promotion->textHtml = "<div style='background-color: #1b1e21; color: #fff  ; padding: 20px; text-align: center' class='container'><span>Olha esse span mermão.</span></div>";
+//
+//    return view('front.home',  [
+//              'users' => $users,
+//              'promotion' => $promotion,
+//     ]);
 
 //    return view('front.home')->with('user', $user);
 //    return view('front.home')->with(['user' => $user, 'promotion' => $promotion]);
 //    return view('front.home')->with('user', $user)->with('promotion',$promotion);
 //    return view('front.home', compact(['user', 'promotion']));
-});
+//});
 
-Route::get('/' , function() {
-    return view('front.home');
-});
+//Route::get('/' , function() {
+//    return view('front.home');
+//});
 
-Route::get('/courses' , function() {
-    return view('front.master.course');
-});
+//Route::get('/courses' , function() {
+//    return view('front.master.course');
+//});
+
+
+
+Route::resource('courses', 'CourseController');
