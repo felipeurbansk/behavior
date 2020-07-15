@@ -10,7 +10,9 @@
 </head>
 <body>
 
-@yield('content')
+<div class="container mt-5">
+    @yield('content')
+</div>
 
 <script src="{{asset('js/app.js')}}"></script>
 </body>
